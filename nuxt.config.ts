@@ -4,7 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss'],
   css: [
-    '@fontsource-variable/estedad/wght.css',
-    '~/assets/css/main.css'
-  ]
+    'swiper/css',
+    'swiper/css/effect-fade',
+    '~/assets/css/main.css',
+    '~/assets/css/components/category-slider.css',
+  ],
 })
