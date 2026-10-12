@@ -114,7 +114,7 @@ h1 {
   font-size: clamp(42px, 5.3vw, 76px);
   line-height: 1.45;
   font-weight: 800;
-  letter-spacing: -2px;
+  letter-spacing: normal;
 }
 
 h1 span {

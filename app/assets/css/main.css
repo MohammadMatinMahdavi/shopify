@@ -20,10 +20,16 @@ body {
   margin: 0;
   background: var(--nova-bg);
   color: var(--nova-ink);
-  font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Estedad Variable', Tahoma, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
-}
 
+}
+h1,
+h2 {
+  font-weight: 750;
+  letter-spacing: normal;
+}
 * {
   box-sizing: border-box;
 }
