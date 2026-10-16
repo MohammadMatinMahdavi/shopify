@@ -80,9 +80,10 @@
               0 12px 28px rgba(49, 37, 29, .1);
 }
 
-.category-slider :deep(.swiper),
-.category-slider :deep(.swiper-wrapper),
-.category-slider :deep(.swiper-slide) {
+
+.category-slider .swiper,
+.category-slider .swiper-wrapper,
+.category-slider .swiper-slide {
   width: 100%;
   height: 100%;
 }
