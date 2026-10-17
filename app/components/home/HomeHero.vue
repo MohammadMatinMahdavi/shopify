@@ -211,10 +211,11 @@ h1 span {
 
 .hero-image-wrap {
   position: relative;
+  border-radius: var(--nova-radius-xl);
   width: 100%;
   height: clamp(420px, 43vw, 590px);
   overflow: hidden;
-
+  background: #eee9e1;
 }
 
 .hero-image {
@@ -261,8 +262,10 @@ h1 span {
   gap: 12px;
   padding: 16px 20px;
 
+  border: 1px solid #ffffffa6;
+  border-radius: var(--nova-radius-md);
   background: var(--nova-surface);
-  box-shadow: 0 12px 40px #20201e12;
+  box-shadow: var(--nova-shadow-soft);
 }
 
 .note-dot {

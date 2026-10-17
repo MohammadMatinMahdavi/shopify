@@ -1,27 +1,22 @@
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCart } from '~/composables/useCart'
+import { useAuthStore } from '~/stores/auth'
+import { novaCategories } from '~/data/categories'
 
 const menuOpen = ref(false)
 const activeMenu = ref('')
 const searchOpen = ref(false)
 const searchQuery = ref('')
 
-const user = ref(null)
+const authStore = useAuthStore()
+const { user, displayName, busy: authLoading } = storeToRefs(authStore)
+const accountMenuOpen = ref(false)
 const authError = ref('')
-const authLoading = ref(false)
-
 const { count } = useCart()
-
-let authSubscription = null
-
-const categories = [
-  { title: 'کفش', subtitle: 'برای هر قدم', image: '/images/p2.jpg', href: '/products?category=shoes' },
-  { title: 'کتونی', subtitle: 'راحتی در حرکت', image: '/images/p3.jpg', href: '/products?category=sneakers' },
-  { title: 'کیف', subtitle: 'جزئیات ماندگار', image: '/images/p4.jpg', href: '/products?category=bags' },
-  { title: 'اکسسوری', subtitle: 'امضای استایل تو', image: '/images/p5.jpg', href: '/products?category=accessories' }
-]
+const categories = novaCategories
 
 const navLinks = [
   { label: 'صفحه اصلی', href: '/' },
@@ -38,59 +33,28 @@ const searchHref = computed(() => {
 
 onMounted(async () => {
   const { $supabase } = useNuxtApp()
-
-  if (!$supabase) {
-    authError.value = 'سرویس حساب کاربری در دسترس نیست.'
-    return
-  }
-
-  // دریافت وضعیت فعلی حساب
-  const { data, error } = await $supabase.auth.getUser()
-
-  if (!error) {
-    user.value = data.user
-  }
-
-  // دنبال کردن تغییرات ورود و خروج
-  const { data: authListener } = $supabase.auth.onAuthStateChange(
-    (_event, session) => {
-      user.value = session?.user ?? null
-    }
-  )
-
-  authSubscription = authListener.subscription
-})
-
-onUnmounted(() => {
-  authSubscription?.unsubscribe()
+  if (!$supabase) { authError.value = 'سرویس حساب کاربری در دسترس نیست.'; return }
+  try { await authStore.initialize($supabase) }
+  catch (error) { console.error('Auth initialization failed:', error); authError.value = 'وضعیت حساب کاربری دریافت نشد.' }
 })
 
 function closeMenus() {
+  accountMenuOpen.value = false
   activeMenu.value = ''
   menuOpen.value = false
 }
 
 async function handleSignOut() {
   if (authLoading.value) return
-
   authError.value = ''
-  authLoading.value = true
-
   try {
     const { $supabase } = useNuxtApp()
-    const { error } = await $supabase.auth.signOut()
-
-    if (error) throw error
-
-    user.value = null
+    await authStore.signOut($supabase)
     closeMenus()
-
     await navigateTo('/')
   } catch (error) {
     console.error('Sign out failed:', error)
     authError.value = 'خروج از حساب انجام نشد. دوباره تلاش کن.'
-  } finally {
-    authLoading.value = false
   }
 }
 </script>
@@ -185,24 +149,22 @@ async function handleSignOut() {
             </svg>
           </button>
 
-          <NuxtLink
-            v-if="!user"
-            to="/auth"
-            class="account-link"
-            aria-label="ورود به حساب کاربری"
-          >
-            ورود
+          <NuxtLink v-if="!user" to="/auth" class="account-link" aria-label="ورود به حساب کاربری">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.2-5.2 7-5.2s6.3 1.8 7 5.2"/></svg><span>ورود</span>
           </NuxtLink>
-
-          <button
-            v-else
-            class="account-link"
-            type="button"
-            :disabled="authLoading"
-            @click="handleSignOut"
-          >
-            {{ authLoading ? 'در حال خروج...' : 'خروج' }}
-          </button>
+          <div v-else class="account-area">
+            <button class="account-link account-trigger" type="button" :aria-expanded="accountMenuOpen" @click="accountMenuOpen = !accountMenuOpen; activeMenu = ''">
+              <span class="account-avatar">{{ displayName.slice(0,1) }}</span><span class="account-name">{{ displayName }}</span>
+              <svg class="account-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 6 5 5 5-5"/></svg>
+            </button>
+            <Transition name="account-menu">
+              <div v-if="accountMenuOpen" class="account-menu">
+                <div class="account-menu-heading"><span class="account-avatar account-avatar-large">{{ displayName.slice(0,1) }}</span><span><strong>{{ displayName }}</strong><small>{{ user.email }}</small></span></div>
+                <NuxtLink to="/account" @click="closeMenus"><span class="menu-icon">⌁</span> پروفایل من <span class="menu-arrow">←</span></NuxtLink>
+                <button type="button" :disabled="authLoading" @click="handleSignOut"><span class="menu-icon">↗</span>{{ authLoading ? 'در حال خروج...' : 'خروج از حساب' }}</button>
+              </div>
+            </Transition>
+          </div>
 
           <NuxtLink to="/cart" class="cart-link" aria-label="سبد خرید">
             <span class="cart-label">سبد خرید</span>
@@ -312,23 +274,9 @@ async function handleSignOut() {
           {{ link.label }} <span>↗</span>
         </NuxtLink>
 
-        <NuxtLink
-          v-if="!user"
-          to="/auth"
-          @click="closeMenus"
-        >
-          ورود / ثبت‌نام <span>↗</span>
-        </NuxtLink>
-
-        <button
-          v-else
-          class="mobile-signout"
-          type="button"
-          :disabled="authLoading"
-          @click="handleSignOut"
-        >
-          {{ authLoading ? 'در حال خروج...' : 'خروج از حساب' }}
-        </button>
+        <NuxtLink v-if="!user" to="/auth" @click="closeMenus">ورود / ثبت‌نام <span>↗</span></NuxtLink>
+        <NuxtLink v-else to="/account" @click="closeMenus">پروفایل {{ displayName }} <span>↗</span></NuxtLink>
+        <button v-if="user" class="mobile-signout" type="button" :disabled="authLoading" @click="handleSignOut">{{ authLoading ? 'در حال خروج...' : 'خروج از حساب' }}</button>
 
         <div class="mobile-category-list">
           <span class="mobile-nav-label">دسته‌بندی محصولات</span>
@@ -516,21 +464,39 @@ async function handleSignOut() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 8px 11px;
   border: 1px solid var(--nova-border);
-  background: transparent;
+  border-radius: var(--nova-radius-pill);
+  background: var(--nova-surface);
   color: var(--nova-ink);
   font: inherit;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   cursor: pointer;
-  transition: background .2s ease, color .2s ease;
+  transition: background .2s ease, border-color .2s ease;
 }
-
-.account-link:hover:not(:disabled) {
-  background: var(--nova-ink);
-  color: white;
-}
+.account-link svg { width: 19px; height: 19px; flex: 0 0 auto; }
+.account-link:hover:not(:disabled) { border-color: #d7c7bb; background: var(--nova-accent-soft); }
+.account-area { position: relative; }
+.account-trigger { max-width: 190px; }
+.account-avatar { width: 25px; height: 25px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: var(--nova-accent-soft); color: var(--nova-accent); font-size: 12px; font-weight: 750; }
+.account-name { overflow: hidden; text-overflow: ellipsis; }
+.account-chevron { width: 13px !important; height: 13px !important; transition: transform .2s ease; }
+.account-trigger[aria-expanded="true"] .account-chevron { transform: rotate(180deg); }
+.account-menu { position: absolute; top: calc(100% + 12px); left: 0; z-index: 80; width: 270px; padding: 10px; border: 1px solid var(--nova-border); border-radius: 18px; background: var(--nova-surface); box-shadow: var(--nova-shadow-card); }
+.account-menu-heading { display: flex; align-items: center; gap: 11px; padding: 12px 10px 15px; border-bottom: 1px solid var(--nova-border); margin-bottom: 6px; }
+.account-avatar-large { width: 42px; height: 42px; font-size: 17px; }
+.account-menu-heading > span:last-child { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.account-menu-heading strong { font-size: 12px; }
+.account-menu-heading small { color: var(--nova-muted); font-size: 10px; overflow-wrap: anywhere; }
+.account-menu > a, .account-menu > button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--nova-ink); font: inherit; font-size: 12px; text-align: right; cursor: pointer; }
+.account-menu > a:hover, .account-menu > button:hover:not(:disabled) { background: var(--nova-surface-soft); }
+.account-menu > button { color: #a34232; }
+.menu-icon { width: 20px; font-size: 16px; text-align: center; }
+.menu-arrow { margin-right: auto; color: var(--nova-muted); }
+.account-menu-enter-active, .account-menu-leave-active { transition: opacity .16s ease, transform .16s ease; }
+.account-menu-enter-from, .account-menu-leave-to { opacity: 0; transform: translateY(-5px);}
 
 .account-link:disabled {
   opacity: .6;
@@ -654,6 +620,7 @@ async function handleSignOut() {
   position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 4.8;
+  border-radius: var(--nova-radius-md);
   background: #eee9e1;
 }
 
@@ -861,10 +828,10 @@ async function handleSignOut() {
     height: 34px;
   }
 
-  .account-link {
-    padding: 7px 8px;
-    font-size: 11px;
-  }
+  .account-link { padding: 7px 9px; font-size: 10px; }
+  .account-area { position: static; }
+  .account-menu { left: 16px; right: 16px; top: calc(100% + 6px); width: auto; }
+  .account-name { max-width: 74px; }
 
   .cart-label {
     display: none;
@@ -927,6 +894,7 @@ async function handleSignOut() {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .account-menu-enter-active, .account-menu-leave-active,
   .mega-menu-enter-active,
   .mega-menu-leave-active,
   .search-panel-enter-active,
