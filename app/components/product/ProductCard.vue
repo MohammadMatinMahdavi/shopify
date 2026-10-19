@@ -14,7 +14,7 @@ onBeforeUnmount(() => clearTimeout(resetTimer))
 </script>
 <template>
  <article class="product-card">
-  <NuxtLink :to="`/products/${product.id}`" class="product-image-wrap" :aria-label="`مشاهده ${product.name}`">
+  <NuxtLink :to="`/products/${product.slug || product.id}`" class="product-image-wrap" :aria-label="`مشاهده ${product.name}`">
    <img class="product-image" :src="product.image" :alt="product.name" loading="lazy"/>
    <span v-if="product.badge" class="product-badge">{{ product.badge }}</span><span class="product-number">{{ product.number }} / NOVA</span><span class="image-view-link">مشاهده محصول <span>↗</span></span>
   </NuxtLink>
