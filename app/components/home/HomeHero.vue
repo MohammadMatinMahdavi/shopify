@@ -58,14 +58,6 @@
         </div>
       </div>
 
-      <div class="floating-note">
-        <span class="note-dot"></span>
-
-        <div>
-          <strong>Less, but better.</strong>
-          <span>کمتر، اما بهتر.</span>
-        </div>
-      </div>
 
       <span class="hero-index">Nº 001 — NOVA STUDIO</span>
     </div>
@@ -213,7 +205,7 @@ h1 span {
   position: relative;
   border-radius: var(--nova-radius-xl);
   width: 100%;
-  height: clamp(420px, 43vw, 590px);
+  height: 390px;
   overflow: hidden;
   background: #eee9e1;
 }
