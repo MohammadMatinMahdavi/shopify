@@ -21,6 +21,7 @@ const visibleProducts = computed(() => filterAndSortProducts(products, {
   category: category.value,
   sort: sort.value,
 }))
+const formattedResultCount = computed(() => new Intl.NumberFormat('fa-IR').format(visibleProducts.value.length))
 
 function updateQuery(key, value) {
   const query = { ...route.query }
@@ -59,7 +60,7 @@ useHead({
       </section>
 
       <div class="catalog-results">
-        <p aria-live="polite"><strong>{{ new Intl.NumberFormat('fa-IR').format(visibleProducts.length) }}</strong> محصول پیدا شد</p>
+        <p aria-live="polite"><strong>{{ formattedResultCount }}</strong> محصول پیدا شد</p>
         <ProductSort :model-value="sort" @update:model-value="updateQuery('sort', $event)" />
       </div>
 
