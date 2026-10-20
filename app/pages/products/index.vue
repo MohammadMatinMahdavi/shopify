@@ -45,14 +45,6 @@ useHead({
         <NuxtLink to="/">خانه</NuxtLink><span>/</span><span aria-current="page">محصولات</span>
       </nav>
 
-      <section class="catalog-intro">
-        <div>
-          <span class="catalog-eyebrow">THE NOVA COLLECTION</span>
-          <h1>چیزی برای <em>استایل تو.</em></h1>
-          <p>از انتخاب‌های روزمره تا جزئیاتی که امضای استایل تو می‌شوند.</p>
-        </div>
-        <span class="catalog-index" dir="ltr">NOVA / 001—{{ String(products.length).padStart(3, '0') }}</span>
-      </section>
 
       <section class="catalog-controls" aria-label="جست‌وجو و فیلتر محصولات">
         <ProductSearch :model-value="search" @update:model-value="updateQuery('search', $event)" />
