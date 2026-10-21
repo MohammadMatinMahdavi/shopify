@@ -1,6 +1,6 @@
 import { computed, onMounted, watch } from 'vue'
 import { useAuthStore } from '~/stores/auth'
-import { loadCart, saveCart, mergeCartItems } from '~/services/cartService'
+import { loadCart, saveCart, clearStoredCart, mergeCartItems } from '~/services/cartService'
 
 export const useCart = () => {
   const items = useState('nova-cart-items', () => [])
@@ -27,6 +27,7 @@ export const useCart = () => {
     if (nextOwner === activeOwner.value) return
     const guestItems = nextUserId && activeOwner.value === 'guest' ? items.value : []
     const savedItems = loadCart(nextOwner)
+    if (nextUserId && activeOwner.value === 'guest') clearStoredCart('guest')
     activeOwner.value = nextOwner
     items.value = mergeCartItems(savedItems, guestItems)
   }, { flush: 'sync' })

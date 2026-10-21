@@ -29,6 +29,11 @@ export function loadCart(owner = 'guest') {
   } catch { return [] }
 }
 
+export function clearStoredCart(owner = 'guest') {
+  if (!import.meta.client) return
+  try { localStorage.removeItem(key(owner)) } catch {}
+}
+
 export function saveCart(owner = 'guest', items = []) {
   if (!import.meta.client) return
   try { localStorage.setItem(key(owner), JSON.stringify(items.map(normalize).filter(Boolean))) }
