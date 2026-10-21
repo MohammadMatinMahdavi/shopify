@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia'
 import { useCart } from '~/composables/useCart'
 import { useAuthStore } from '~/stores/auth'
 import { novaCategories } from '~/data/categories'
+import CartDrawer from '~/components/cart/CartDrawer.vue'
 
 const menuOpen = ref(false)
 const activeMenu = ref('')
@@ -293,6 +294,8 @@ async function handleSignOut() {
       </nav>
     </Transition>
   </header>
+
+  <CartDrawer />
 </template>
 
 <style scoped>

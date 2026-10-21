@@ -98,7 +98,7 @@ onBeforeUnmount(() => clearTimeout(resetTimer))
 .breadcrumbs{display:flex;align-items:center;gap:10px;color:var(--nova-muted);font-size:10px;flex-wrap:wrap}
 .breadcrumbs a:hover{color:var(--nova-accent)}.breadcrumbs span:last-child{color:var(--nova-ink)}
 .detail-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.8fr);gap:clamp(32px,7vw,100px);align-items:start;padding-top:34px}
-.detail-image-wrap{ width: 700px; height: 500px; position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:var(--nova-radius-xl);background:var(--nova-surface-soft)}
+.detail-image-wrap{position:relative;width:100%;min-width:0;overflow:hidden;aspect-ratio:4/5;border-radius:var(--nova-radius-xl);background:var(--nova-surface-soft)}
 .detail-image{display:block;width:100%;height:100%;object-fit:cover}
 .detail-badge{position:absolute;top:18px;right:18px;padding:9px 14px;border-radius:var(--nova-radius-pill);background:var(--nova-surface);font-size:10px}
 .detail-image-index{position:absolute;bottom:18px;left:18px;color:white;font:10px Arial,sans-serif;letter-spacing:1px;text-shadow:0 1px 6px #0008}

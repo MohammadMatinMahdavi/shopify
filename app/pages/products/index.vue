@@ -46,6 +46,15 @@ useHead({
       </nav>
 
 
+      <section class="catalog-intro" aria-labelledby="catalog-title">
+        <div>
+          <span class="catalog-eyebrow">THE NOVA COLLECTION</span>
+          <h1 id="catalog-title">انتخابی برای <em>استایل تو.</em></h1>
+          <p>از میان انتخاب‌های روزمره تا جزئیاتی متفاوت، چیزی را پیدا کن که به تو می‌آید.</p>
+        </div>
+        <span class="catalog-index" dir="ltr">CURATED OBJECTS / 2026</span>
+      </section>
+
       <section class="catalog-controls" aria-label="جست‌وجو و فیلتر محصولات">
         <ProductSearch :model-value="search" @update:model-value="updateQuery('search', $event)" />
         <ProductFilters :model-value="category" @update:model-value="updateQuery('category', $event)" />
