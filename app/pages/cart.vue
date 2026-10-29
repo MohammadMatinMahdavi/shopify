@@ -15,10 +15,7 @@ useHead({ title: 'سبد خرید | NOVA', meta: [{ name: 'description', content
     <SiteHeader />
     <main class="nova-container cart-main">
       <nav class="breadcrumbs" aria-label="مسیر صفحه"><NuxtLink to="/">خانه</NuxtLink><span>/</span><span aria-current="page">سبد خرید</span></nav>
-      <section class="cart-heading">
-        <div><span class="cart-eyebrow">YOUR SELECTION, YOUR STYLE</span><h1>سبد <em>خرید</em></h1><p>قبل از ادامه، انتخاب‌هایت را یک بار دیگر مرور کن.</p></div>
-        <span class="cart-step" dir="ltr"><b>01</b><i></i><span>02</span><i></i><span>03</span></span>
-      </section>
+      
       <section v-if="items.length" class="cart-layout">
         <div class="cart-items-panel">
           <div class="items-panel-heading"><h2>محصولات انتخاب‌شده <span>({{ new Intl.NumberFormat('fa-IR').format(count) }})</span></h2><button type="button" @click="clearCart">خالی کردن سبد</button></div>
