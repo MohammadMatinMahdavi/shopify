@@ -5,6 +5,7 @@ import { loadCart, saveCart, clearStoredCart, mergeCartItems } from '~/services/
 export const useCart = () => {
   const items = useState('nova-cart-items', () => [])
   const drawerOpen = useState('nova-cart-drawer-open', () => false)
+  const authPromptOpen = useState('nova-cart-auth-prompt-open', () => false)
   const lastAdded = useState('nova-cart-last-added', () => null)
   const hydrated = useState('nova-cart-hydrated', () => false)
   const activeOwner = useState('nova-cart-owner', () => 'guest')
@@ -36,8 +37,15 @@ export const useCart = () => {
     if (hydrated.value) saveCart(activeOwner.value, nextItems)
   }, { deep: true })
 
+  function openAuthPrompt() { authPromptOpen.value = true }
+  function closeAuthPrompt() { authPromptOpen.value = false }
+
   function addItem(product) {
-    if (!product) return
+    if (!authStore.isAuthenticated) {
+      openAuthPrompt()
+      return false
+    }
+    if (!product) return false
     const id = product.id ?? product.slug
     const existing = items.value.find(item => String(item.id) === String(id))
     if (existing) existing.quantity += 1
@@ -49,6 +57,7 @@ export const useCart = () => {
     })
     lastAdded.value = product
     drawerOpen.value = true
+    return true
   }
 
   function increaseItem(id) {
@@ -69,5 +78,5 @@ export const useCart = () => {
   function openDrawer() { drawerOpen.value = true }
   function closeDrawer() { drawerOpen.value = false }
 
-  return { items, count, subtotal, drawerOpen, lastAdded, addItem, increaseItem, decreaseItem, setQuantity, removeItem, clearCart, openDrawer, closeDrawer }
+  return { items, count, subtotal, drawerOpen, authPromptOpen, lastAdded, addItem, increaseItem, decreaseItem, setQuantity, removeItem, clearCart, openDrawer, closeDrawer, openAuthPrompt, closeAuthPrompt }
 }

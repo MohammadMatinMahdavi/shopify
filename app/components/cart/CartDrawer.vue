@@ -4,7 +4,7 @@ import CartItem from '~/components/cart/CartItem.vue'
 import CartSummary from '~/components/cart/CartSummary.vue'
 import { useCart } from '~/composables/useCart'
 
-const { items, count, subtotal, drawerOpen, increaseItem, decreaseItem, removeItem, closeDrawer } = useCart()
+const { items, count, subtotal, drawerOpen, authPromptOpen, increaseItem, decreaseItem, removeItem, closeDrawer, closeAuthPrompt } = useCart()
 const closeButton = ref(null)
 const previousFocus = ref(null)
 
@@ -61,6 +61,19 @@ onBeforeUnmount(() => {
         </aside>
       </div>
     </Transition>
+    <Transition name="auth-prompt">
+      <div v-if="authPromptOpen" class="auth-prompt-overlay" @click.self="closeAuthPrompt">
+        <section class="auth-prompt" role="dialog" aria-modal="true" aria-labelledby="auth-prompt-title" dir="rtl">
+          <button type="button" class="auth-prompt-close" aria-label="بستن" @click="closeAuthPrompt">×</button>
+          <span class="auth-prompt-mark" aria-hidden="true">N.</span>
+          <span class="auth-prompt-eyebrow">YOUR NOVA ACCOUNT</span>
+          <h2 id="auth-prompt-title">برای ادامه وارد حساب شو</h2>
+          <p>برای افزودن محصول و مدیریت سبد خرید، ابتدا وارد حساب کاربری‌ات شو یا یک حساب جدید بساز.</p>
+          <NuxtLink to="/auth?redirect=/cart" class="auth-prompt-primary" @click="closeAuthPrompt">ورود / ثبت‌نام <span>←</span></NuxtLink>
+          <button type="button" class="auth-prompt-secondary" @click="closeAuthPrompt">فعلاً نه</button>
+        </section>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -78,5 +91,14 @@ onBeforeUnmount(() => {
 .cart-drawer-enter-active,.cart-drawer-leave-active{transition:opacity .24s ease}.cart-drawer-enter-active .cart-drawer,.cart-drawer-leave-active .cart-drawer{transition:transform .28s cubic-bezier(.2,.7,.2,1)}
 .cart-drawer-enter-from,.cart-drawer-leave-to{opacity:0}.cart-drawer-enter-from .cart-drawer,.cart-drawer-leave-to .cart-drawer{transform:translateX(-30px)}
 @media(max-width:520px){.drawer-header{padding:19px 17px 16px}.drawer-content{padding-right:17px;padding-left:17px}.drawer-footer{padding-right:17px;padding-left:17px}.cart-drawer{width:100%}}
+.auth-prompt-overlay{position:fixed;inset:0;z-index:1001;display:grid;place-items:center;padding:20px;background:rgb(25 24 22 / 52%);backdrop-filter:blur(4px)}
+.auth-prompt{position:relative;width:min(430px,100%);padding:34px 28px 26px;border:1px solid var(--nova-border);border-radius:22px;background:var(--nova-bg);text-align:center;box-shadow:0 24px 80px #0002}
+.auth-prompt-close{position:absolute;top:13px;left:13px;width:34px;height:34px;border:1px solid var(--nova-border);border-radius:50%;background:transparent;font-size:23px;cursor:pointer}
+.auth-prompt-mark{display:block;color:var(--nova-accent);font:italic 42px Georgia,serif}.auth-prompt-eyebrow{display:block;margin-top:9px;color:var(--nova-accent);font:9px Arial,sans-serif;letter-spacing:1.5px}
+.auth-prompt h2{margin:13px 0 8px;font-size:20px;font-weight:800}.auth-prompt p{margin:0;color:var(--nova-muted);font-size:12px;line-height:2}
+.auth-prompt-primary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;margin-top:23px;padding:0 16px;border-radius:13px;background:var(--nova-ink);color:white;font-size:12px;transition:background .2s}.auth-prompt-primary:hover{background:var(--nova-accent)}.auth-prompt-primary span{font-size:18px}
+.auth-prompt-secondary{margin-top:13px;padding:8px 14px;border:0;background:transparent;color:var(--nova-muted);font:inherit;font-size:11px;cursor:pointer}.auth-prompt-secondary:hover{color:var(--nova-ink)}
+.auth-prompt-enter-active,.auth-prompt-leave-active{transition:opacity .2s}.auth-prompt-enter-from,.auth-prompt-leave-to{opacity:0}
+@media(prefers-reduced-motion:reduce){.auth-prompt-enter-active,.auth-prompt-leave-active{transition:none}}
 @media(prefers-reduced-motion:reduce){.cart-drawer-enter-active,.cart-drawer-leave-active,.cart-drawer-enter-active .cart-drawer,.cart-drawer-leave-active .cart-drawer{transition:none}}
 </style>

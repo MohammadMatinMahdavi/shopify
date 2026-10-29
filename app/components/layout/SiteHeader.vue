@@ -16,7 +16,7 @@ const authStore = useAuthStore()
 const { user, displayName, busy: authLoading } = storeToRefs(authStore)
 const accountMenuOpen = ref(false)
 const authError = ref('')
-const { count } = useCart()
+const { count, openAuthPrompt } = useCart()
 const categories = novaCategories
 
 const navLinks = [
@@ -167,7 +167,7 @@ async function handleSignOut() {
             </Transition>
           </div>
 
-          <NuxtLink to="/cart" class="cart-link" aria-label="سبد خرید">
+          <NuxtLink v-if="user" to="/cart" class="cart-link" aria-label="سبد خرید">
             <span class="cart-label">سبد خرید</span>
 
             <span class="cart-icon-wrap">
@@ -182,6 +182,21 @@ async function handleSignOut() {
               </span>
             </span>
           </NuxtLink>
+          <button v-else type="button" class="cart-link" aria-label="برای دسترسی به سبد خرید وارد حساب شو" @click="openAuthPrompt">
+            <span class="cart-label">سبد خرید</span>
+
+            <span class="cart-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6" />
+                <circle cx="10" cy="20" r="1" />
+                <circle cx="18" cy="20" r="1" />
+              </svg>
+
+              <span v-if="count > 0" class="cart-count">
+                {{ count }}
+              </span>
+            </span>
+          </button>
         </div>
       </div>
 

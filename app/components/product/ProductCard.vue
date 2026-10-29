@@ -7,7 +7,10 @@ const added = ref(false)
 let resetTimer
 function formatPrice(price) { return new Intl.NumberFormat('fa-IR').format(price) }
 function handleAddToCart() {
-  addItem(props.product); added.value = true; clearTimeout(resetTimer)
+  const addedToCart = addItem(props.product)
+  if (!addedToCart) return
+  added.value = true
+  clearTimeout(resetTimer)
   resetTimer = setTimeout(() => { added.value = false }, 1400)
 }
 onBeforeUnmount(() => clearTimeout(resetTimer))
