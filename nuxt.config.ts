@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     'swiper/css',
     'swiper/css/effect-fade',
     '~/assets/css/main.css',
-    '~/assets/css/components/category-slider.css',
   ],
   runtimeConfig: {
     public: {
