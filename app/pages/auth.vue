@@ -52,9 +52,8 @@ async function handleSubmit() {
 
 <template>
   <main class="auth-page" dir="rtl">
-    <NuxtLink to="/" class="brand">NOVA<span>.</span><small>OBJECTS OF STYLE</small></NuxtLink>
     <section class="auth-card">
-      <span class="eyebrow">به دنیای NOVA خوش آمدی</span>
+    <NuxtLink to="/" class="brand">NOVA<span>.</span><small>OBJECTS OF STYLE</small></NuxtLink>
       <h1>{{ isLogin ? 'خوش برگشتی!' : 'حساب خودت را بساز' }}</h1>
       <p class="subtitle">{{ isLogin ? 'برای ادامه وارد حساب کاربری‌ات شو.' : 'یک قدم نزدیک‌تر به استایل خودت.' }}</p>
 
