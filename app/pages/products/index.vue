@@ -11,16 +11,10 @@ import { useProducts } from '~/composables/useProducts'
 const route = useRoute()
 const router = useRouter()
 const { products, filterAndSortProducts } = useProducts()
-
 const search = computed(() => String(route.query.search || ''))
 const category = computed(() => String(route.query.category || ''))
 const sort = computed(() => String(route.query.sort || 'newest'))
-
-const visibleProducts = computed(() => filterAndSortProducts(products, {
-  search: search.value,
-  category: category.value,
-  sort: sort.value,
-}))
+const visibleProducts = computed(() => filterAndSortProducts(products, { search: search.value, category: category.value, sort: sort.value }))
 const formattedResultCount = computed(() => new Intl.NumberFormat('fa-IR').format(visibleProducts.value.length))
 
 function updateQuery(key, value) {
@@ -30,71 +24,26 @@ function updateQuery(key, value) {
   router.replace({ path: route.path, query })
 }
 
-useHead({
-  title: 'همه محصولات | NOVA',
-  meta: [{ name: 'description', content: 'مجموعه کفش، کتونی، کیف و اکسسوری NOVA را ببین و انتخابت را پیدا کن.' }],
-})
+useHead({ title: 'همه محصولات | NOVA', meta: [{ name: 'description', content: 'مجموعه کفش، کتونی، کیف و اکسسوری NOVA را ببین و انتخابت را پیدا کن.' }] })
 </script>
 
 <template>
-  <div dir="rtl" class="catalog-page">
+  <div dir="rtl" class="min-h-screen bg-[#f7f5f0]">
     <SiteHeader />
-
-    <main class="nova-container catalog-main">
-      <nav class="breadcrumbs" aria-label="مسیر صفحه">
-        <NuxtLink to="/">خانه</NuxtLink><span>/</span><span aria-current="page">محصولات</span>
-      </nav>
-
-
-      <section class="catalog-controls" aria-label="جست‌وجو و فیلتر محصولات">
-        <ProductSearch :model-value="search" @update:model-value="updateQuery('search', $event)" />
-        <ProductFilters :model-value="category" @update:model-value="updateQuery('category', $event)" />
+    <main class="mx-auto w-[min(1320px,calc(100%-32px))] pb-16 pt-6 sm:w-[min(1320px,calc(100%-48px))] sm:pb-24 sm:pt-9">
+      <nav class="flex items-center gap-2 text-[10px] text-[#8b877f]" aria-label="مسیر صفحه"><NuxtLink to="/" class="transition-colors hover:text-[#d95d43]">خانه</NuxtLink><span>/</span><span class="text-[#20201e]" aria-current="page">محصولات</span></nav>
+      <section class="relative mt-7 overflow-hidden rounded-[1.75rem] bg-[#252421] px-6 py-9 text-white sm:mt-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
+        <div class="absolute -left-12 -top-24 h-72 w-72 rounded-full border border-white/10"></div><div class="absolute -left-1 top-0 h-64 w-64 rounded-full border border-white/[0.06]"></div>
+        <div class="relative flex flex-col justify-between gap-7 sm:flex-row sm:items-end"><div><span class="mb-3 block text-[9px] font-semibold tracking-[0.25em] text-[#e58a72]" dir="ltr">THE NOVA COLLECTION</span><h1 class="text-3xl font-black leading-[1.5] sm:text-5xl lg:text-6xl">انتخابی برای <span class="text-[#e58a72]">استایل تو.</span></h1><p class="mt-3 max-w-xl text-xs leading-7 text-white/60 sm:text-sm">از انتخاب‌های روزمره تا جزئیاتی متفاوت؛ چیزی را پیدا کن که به تو می‌آید.</p></div><span class="text-[9px] tracking-[0.2em] text-white/45" dir="ltr">CURATED OBJECTS / 2026</span></div>
       </section>
-
-      <div class="catalog-results">
-        <p aria-live="polite"><strong>{{ formattedResultCount }}</strong> محصول پیدا شد</p>
-        <ProductSort :model-value="sort" @update:model-value="updateQuery('sort', $event)" />
-      </div>
-
-      <section v-if="visibleProducts.length" class="catalog-grid" aria-label="فهرست محصولات">
-        <ProductCard v-for="product in visibleProducts" :key="product.id" :product="product" />
+      <section class="mt-7 rounded-2xl border border-[#e7e3db] bg-[#fffefa] p-4 sm:mt-9 sm:p-6" aria-label="جست‌وجو و فیلتر محصولات">
+        <div class="grid gap-4 lg:grid-cols-[minmax(240px,0.8fr)_minmax(0,1.5fr)] lg:items-center"><ProductSearch :model-value="search" @update:model-value="updateQuery('search', $event)" /><ProductFilters :model-value="category" @update:model-value="updateQuery('category', $event)" /></div>
       </section>
-
-      <section v-else class="catalog-empty">
-        <span class="empty-mark">N.</span>
-        <h2>چیزی پیدا نشد</h2>
-        <p>عبارت جست‌وجو یا دسته‌بندی را تغییر بده و دوباره امتحان کن.</p>
-        <button type="button" @click="router.replace({ path: '/products' })">پاک کردن فیلترها</button>
-      </section>
-
-      <div class="catalog-footer-note"><span>LESS, BUT BETTER.</span><span>با دقت انتخاب شده، برای استایل تو.</span></div>
+      <div class="mb-5 mt-7 flex flex-wrap items-center justify-between gap-4 border-b border-[#e7e3db] pb-4"><p class="text-xs text-[#77756f]" aria-live="polite"><strong class="text-sm text-[#20201e]">{{ formattedResultCount }}</strong> محصول پیدا شد</p><ProductSort :model-value="sort" @update:model-value="updateQuery('sort', $event)" /></div>
+      <section v-if="visibleProducts.length" class="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 sm:gap-y-14 lg:grid-cols-3 xl:grid-cols-4" aria-label="فهرست محصولات"><ProductCard v-for="product in visibleProducts" :key="product.id" :product="product" /></section>
+      <section v-else class="flex flex-col items-center rounded-3xl border border-dashed border-[#d8d2c8] bg-[#fffefa] px-5 py-20 text-center"><span class="text-4xl italic text-[#d95d43]">N.</span><h2 class="mt-5 text-xl font-extrabold">چیزی پیدا نشد</h2><p class="mt-2 text-xs leading-7 text-[#77756f]">عبارت جست‌وجو یا دسته‌بندی را تغییر بده و دوباره امتحان کن.</p><button type="button" class="mt-6 rounded-full bg-[#20201e] px-6 py-3 text-xs text-white transition hover:bg-[#d95d43]" @click="router.replace({ path: '/products' })">پاک کردن فیلترها</button></section>
+      <div class="mt-12 flex items-center justify-between gap-4 border-t border-[#e7e3db] pt-5 text-[10px] text-[#8b877f]"><span dir="ltr">LESS, BUT BETTER.</span><span>با دقت انتخاب شده، برای استایل تو.</span></div>
     </main>
-
     <SiteFooter />
   </div>
 </template>
-
-<style scoped>
-.catalog-page{min-height:100vh;background:var(--nova-bg)}
-.catalog-main{padding-top:26px;padding-bottom:84px}
-.breadcrumbs{display:flex;align-items:center;gap:10px;color:var(--nova-muted);font-size:10px}
-.breadcrumbs a:hover{color:var(--nova-accent)}.breadcrumbs span:last-child{color:var(--nova-ink)}
-.catalog-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:48px 0 34px;border-bottom:1px solid var(--nova-border)}
-.catalog-eyebrow{display:block;margin-bottom:12px;color:var(--nova-accent);font:9px Arial,sans-serif;letter-spacing:1.8px}
-.catalog-intro h1{margin:0;font-size:clamp(35px,5vw,60px);font-weight:750;line-height:1.5;letter-spacing:-1.5px}
-.catalog-intro h1 em{color:var(--nova-accent);font-style:normal}
-.catalog-intro p{margin:8px 0 0;color:var(--nova-muted);font-size:12px;line-height:2}
-.catalog-index{padding-bottom:7px;color:var(--nova-muted);font:10px Arial,sans-serif;letter-spacing:1px;white-space:nowrap}
-.catalog-controls{display:grid;grid-template-columns:minmax(220px, .8fr) minmax(0,1.4fr);align-items:center;gap:20px;padding:25px 0 20px}
-.catalog-results{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;padding-top:18px;border-top:1px solid var(--nova-border)}
-.catalog-results p{margin:0;color:var(--nova-muted);font-size:11px}.catalog-results strong{color:var(--nova-ink);font-size:13px}
-.catalog-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:42px 22px}
-.catalog-empty{display:flex;align-items:center;flex-direction:column;padding:80px 20px;text-align:center;border:1px dashed var(--nova-border);border-radius:var(--nova-radius-xl);background:var(--nova-surface)}
-.empty-mark{color:var(--nova-accent);font:italic 38px Georgia,serif}.catalog-empty h2{margin:16px 0 4px;font-size:22px}.catalog-empty p{margin:0;color:var(--nova-muted);font-size:12px;line-height:2}
-.catalog-empty button{margin-top:22px;padding:11px 18px;border:0;border-radius:var(--nova-radius-pill);background:var(--nova-ink);color:white;font:inherit;font-size:11px;cursor:pointer}
-.catalog-footer-note{display:flex;justify-content:space-between;gap:16px;margin-top:48px;padding-top:18px;border-top:1px solid var(--nova-border);color:var(--nova-muted);font-size:10px}
-.catalog-footer-note span:first-child{font:9px Arial,sans-serif;letter-spacing:1.4px}
-@media(max-width:1050px){.catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px}.catalog-controls{grid-template-columns:1fr}.catalog-intro{padding-top:38px}}
-@media(max-width:760px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 14px}.catalog-intro{align-items:flex-start;flex-direction:column;gap:15px}.catalog-intro h1{font-size:clamp(34px,8vw,48px)}.catalog-main{padding-bottom:54px}.catalog-controls{gap:15px}.catalog-footer-note{margin-top:34px}}
-@media(max-width:420px){.catalog-grid{gap:26px 10px}.catalog-main{padding-top:20px}.catalog-intro{padding-top:30px}.catalog-index{font-size:9px}}
-</style>
