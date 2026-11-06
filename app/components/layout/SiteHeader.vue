@@ -61,7 +61,7 @@ async function handleSignOut() {
 </script>
 
 <template>
-  <header class="site-header" @mouseleave="activeMenu = ''">
+  <header class="site-header sticky top-0 z-[100]" @mouseleave="activeMenu = ''">
     <div class="announcement-bar">
       <span>انتخاب‌های تازه، برای استایل متفاوت تو</span>
       <span class="announcement-divider"></span>
@@ -315,9 +315,6 @@ async function handleSignOut() {
 
 <style scoped>
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
   background: var(--nova-bg);
 }
 
