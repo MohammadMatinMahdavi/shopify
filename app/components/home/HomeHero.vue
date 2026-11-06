@@ -2,7 +2,7 @@
   <section class="relative isolate overflow-hidden bg-[#f0e3df]">
     <div class="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full bg-[#b8a4c8]/[0.22] blur-3xl"></div>
     <div class="pointer-events-none absolute bottom-0 right-1/3 h-72 w-72 rounded-full bg-[#8eaaa0]/[0.16] blur-3xl"></div>
-    <div class="mx-auto grid min-h-[650px] w-[min(1440px,100%)] grid-cols-1 items-center gap-0 lg:min-h-[760px] lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="mx-auto grid min-h-[650px] w-[min(1440px,100%)] grid-cols-1 items-center gap-0 lg:min-h-[760px] lg:grid-cols-[0.72fr_1.28fr]">
       <div class="relative z-10 order-2 px-6 pb-14 pt-9 sm:px-10 lg:order-1 lg:px-16 lg:py-20 xl:px-24">
         <div class="flex items-center gap-3 text-[11px] font-medium text-[#77756f]"><span class="h-px w-9 bg-[#d95d43]"></span>مجموعه پاییز / زمستان ۱۴۰۵</div>
         <p class="mt-8 text-[10px] font-semibold tracking-[0.28em] text-[#d95d43]" dir="ltr">A MORE PERSONAL KIND OF STYLE</p>
