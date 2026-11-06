@@ -315,8 +315,9 @@ async function handleSignOut() {
 
 <style scoped>
 .site-header {
-  position: relative;
-  z-index: 50;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: var(--nova-bg);
 }
 
