@@ -3,8 +3,8 @@
     <div class="pointer-events-none absolute -left-32 top-0 h-72 w-72 rounded-full bg-[#b8a4c8]/[0.18] blur-3xl"></div>
     <div class="pointer-events-none absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-[#8eaaa0]/[0.14] blur-3xl"></div>
 
-    <div class="mx-auto grid w-[min(1440px,100%)] grid-cols-1 items-center gap-8 px-5 py-7 sm:px-8 lg:grid-cols-[minmax(0,1fr)_700px] lg:gap-10 lg:px-10 lg:py-9 xl:px-16">
-      <div class="relative z-10 order-2 px-1 sm:px-2 lg:order-1 lg:py-2 lg:pl-5 xl:pl-10">
+    <div class="mx-auto grid w-[min(1440px,100%)] grid-cols-1 items-center gap-8 px-5 py-7 sm:px-8 xl:grid-cols-[minmax(0,1fr)_700px] xl:gap-10 lg:px-10 lg:py-9 xl:px-16">
+      <div class="relative z-10 order-2 px-1 sm:px-2 xl:order-1 lg:py-2 lg:pl-5 xl:pl-10">
         <div class="flex items-center gap-3 text-[11px] font-medium text-[#77756f]"><span class="h-px w-9 bg-[#d95d43]"></span>مجموعه پاییز / زمستان ۱۴۰۵</div>
         <p class="mt-5 text-[10px] font-semibold tracking-[0.25em] text-[#d95d43]" dir="ltr">A MORE PERSONAL KIND OF STYLE</p>
         <h1 class="mt-3 max-w-[560px] text-[clamp(2.6rem,4.4vw,4.7rem)] font-black leading-[1.35] tracking-[-0.045em] text-[#20201e]">استایل تو،<span class="block text-[#d95d43]">قانون توست.</span></h1>
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="group relative order-1 mx-auto h-[300px] w-full max-w-[700px] overflow-hidden rounded-[24px] bg-[#eee9e1] sm:h-[360px] lg:order-2 lg:h-[400px] lg:w-[700px]">
+      <div class="group relative order-1 mx-auto h-[300px] w-full max-w-[700px] overflow-hidden rounded-[24px] bg-[#eee9e1] sm:h-[360px] xl:order-2 xl:h-[400px] xl:w-[700px]">
         <img
           src="/images/p1.jpg"
           alt="استایل مدرن با پوشش مینیمال"
