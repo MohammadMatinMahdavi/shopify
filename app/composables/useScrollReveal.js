@@ -6,6 +6,7 @@ import { onMounted, onBeforeUnmount, unref } from 'vue'
  */
 export function useScrollReveal(target, selector = '[data-gsap-reveal]') {
   let context
+  let isMounted = true
 
   onMounted(async () => {
     const element = unref(target)
@@ -16,6 +17,8 @@ export function useScrollReveal(target, selector = '[data-gsap-reveal]') {
       import('gsap'),
       import('gsap/ScrollTrigger'),
     ])
+
+    if (!isMounted) return
 
     gsap.registerPlugin(ScrollTrigger)
 
@@ -45,6 +48,7 @@ export function useScrollReveal(target, selector = '[data-gsap-reveal]') {
   })
 
   onBeforeUnmount(() => {
+    isMounted = false
     context?.revert()
   })
 }
