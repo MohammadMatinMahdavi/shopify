@@ -5,6 +5,7 @@ defineProps({
   user: { type: Object, default: null },
   displayName: { type: String, default: 'کاربر NOVA' },
   authLoading: { type: Boolean, default: false },
+  open: { type: Boolean, default: false },
 })
 defineEmits(['close', 'sign-out'])
 </script>
@@ -18,7 +19,7 @@ defineEmits(['close', 'sign-out'])
     leave-from-class="translate-y-0 opacity-100"
     leave-to-class="-translate-y-2 opacity-0"
   >
-    <nav aria-label="منوی موبایل" class="mx-auto hidden w-full max-w-[1440px] flex-col px-5 pb-[22px] pt-[5px] sm:px-8 max-[700px]:flex" dir="rtl">
+    <nav v-if="open" aria-label="منوی موبایل" class="mx-auto hidden w-full max-w-[1440px] flex-col px-5 pb-[22px] pt-[5px] sm:px-8 max-[700px]:flex" dir="rtl">
       <NuxtLink v-for="link in links" :key="link.label" :to="link.href" class="flex justify-between border-t border-[var(--nova-border)] py-[14px] text-[13px]" @click="$emit('close')">
         {{ link.label }} <span class="text-[var(--nova-accent)]">↗</span>
       </NuxtLink>
