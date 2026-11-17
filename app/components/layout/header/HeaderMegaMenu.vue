@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   categories: { type: Array, default: () => [] },
+  open: { type: Boolean, default: false },
 })
 defineEmits(['close'])
 </script>
@@ -14,7 +15,7 @@ defineEmits(['close'])
     leave-from-class="translate-y-0 opacity-100"
     leave-to-class="-translate-y-2 opacity-0"
   >
-    <div class="absolute left-0 right-0 top-full z-[60] border-b border-[var(--nova-border)] bg-[var(--nova-surface)] shadow-[0_24px_45px_#20201e12]" @mouseenter="$emit('keep-open')">
+    <div v-if="open" class="absolute left-0 right-0 top-full z-[60] border-b border-[var(--nova-border)] bg-[var(--nova-surface)] shadow-[0_24px_45px_#20201e12]" @mouseenter="$emit('keep-open')">
       <div class="mx-auto flex max-w-[1440px] items-stretch gap-[22px] px-5 pb-[34px] pt-[30px] sm:px-8 lg:px-10 max-[900px]:gap-[14px]">
         <div class="min-w-[160px] flex-[1.15_1_0] pt-[10px]">
           <span class="font-[Arial,sans-serif] text-[9px] tracking-[1.8px] text-[var(--nova-accent)]">FIND YOUR STYLE</span>
