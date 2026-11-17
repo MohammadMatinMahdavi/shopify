@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   modelValue: { type: String, default: '' },
+  open: { type: Boolean, default: false },
 })
 defineEmits(['update:modelValue', 'submit'])
 </script>
@@ -15,6 +16,7 @@ defineEmits(['update:modelValue', 'submit'])
     leave-to-class="-translate-y-1 opacity-0"
   >
     <form
+      v-if="open"
       class="mx-auto flex w-full max-w-[1440px] items-center gap-4 border-t border-[var(--nova-border)] px-5 py-[18px] sm:px-8 lg:px-10"
       @submit.prevent="$emit('submit')"
     >
