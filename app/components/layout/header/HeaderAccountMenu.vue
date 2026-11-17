@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 
-const props = defineProps({
+defineProps({
   displayName: { type: String, default: 'کاربر NOVA' },
   email: { type: String, default: '' },
   loading: { type: Boolean, default: false },
 })
-const emit = defineEmits(['sign-out', 'close'])
+defineEmits(['sign-out', 'close'])
 const isOpen = ref(false)
 </script>
 
@@ -38,7 +38,7 @@ const isOpen = ref(false)
           <span class="grid size-[42px] shrink-0 place-items-center rounded-full bg-[var(--nova-accent-soft)] text-[17px] font-bold text-[var(--nova-accent)]">{{ displayName.slice(0, 1) }}</span>
           <span class="flex min-w-0 flex-col gap-1">
             <strong class="text-xs">{{ displayName }}</strong>
-            <small class="overflow-wrap-anywhere text-[10px] text-[var(--nova-muted)]">{{ email }}</small>
+            <small class="[overflow-wrap:anywhere] text-[10px] text-[var(--nova-muted)]">{{ email }}</small>
           </span>
         </div>
         <NuxtLink to="/account" class="flex w-full items-center gap-[10px] rounded-[10px] px-[10px] py-3 text-right text-xs text-[var(--nova-ink)] hover:bg-[var(--nova-surface-soft)]" @click="isOpen = false; $emit('close')">
