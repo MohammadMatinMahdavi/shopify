@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({ product: { type: Object, required: true } })
+defineProps({ product: { type: Object, required: true } })
 
 function formatPrice(price) {
   return new Intl.NumberFormat('fa-IR').format(price)
