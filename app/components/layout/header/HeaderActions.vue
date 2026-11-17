@@ -6,6 +6,7 @@ defineProps({
   displayName: { type: String, default: 'کاربر NOVA' },
   authLoading: { type: Boolean, default: false },
   count: { type: Number, default: 0 },
+  searchOpen: { type: Boolean, default: false },
 })
 defineEmits(['toggle-search', 'sign-out', 'close-menus', 'auth-prompt'])
 </script>
@@ -16,7 +17,7 @@ defineEmits(['toggle-search', 'sign-out', 'close-menus', 'auth-prompt'])
       type="button"
       aria-label="جستجو"
       class="grid size-[39px] place-items-center border border-transparent bg-transparent text-[var(--nova-ink)] transition-colors hover:border-[var(--nova-border)] hover:bg-[var(--nova-surface)] max-[700px]:size-[34px]"
-      aria-expanded="false"
+      :aria-expanded="searchOpen"
       @click="$emit('toggle-search')"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="size-[21px]">
