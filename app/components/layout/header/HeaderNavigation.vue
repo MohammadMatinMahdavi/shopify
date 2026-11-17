@@ -17,7 +17,6 @@ defineEmits(['toggle-categories', 'open-categories', 'close'])
       class="group relative inline-flex items-center gap-[7px] whitespace-nowrap border-0 bg-transparent text-xs text-[#5f5b55] transition-colors hover:text-[var(--nova-ink)] focus-visible:text-[var(--nova-ink)]"
       :aria-expanded="activeMenu === 'categories'"
       @mouseenter="$emit('open-categories')"
-      @focus="$emit('open-categories')"
       @click="$emit('toggle-categories')"
     >
       دسته‌بندی‌ها
