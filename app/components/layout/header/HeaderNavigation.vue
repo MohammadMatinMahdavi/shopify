@@ -2,7 +2,7 @@
 defineProps({
   activeMenu: { type: String, default: '' },
 })
-defineEmits(['toggle-categories', 'close'])
+defineEmits(['toggle-categories', 'open-categories', 'close'])
 </script>
 
 <template>
@@ -16,7 +16,7 @@ defineEmits(['toggle-categories', 'close'])
       type="button"
       class="group relative inline-flex items-center gap-[7px] whitespace-nowrap border-0 bg-transparent text-xs text-[#5f5b55] transition-colors hover:text-[var(--nova-ink)] focus-visible:text-[var(--nova-ink)]"
       :aria-expanded="activeMenu === 'categories'"
-      @mouseenter="$emit('toggle-categories')"
+      @mouseenter="$emit('open-categories')"
       @focus="$emit('toggle-categories')"
       @click="$emit('toggle-categories')"
     >
